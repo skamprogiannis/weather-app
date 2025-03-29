@@ -32,11 +32,11 @@ async function getWeatherData(location, startDate, endDate, units) {
     console.log("Constructed URL:", url);
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      throw new Error(`Failed to fetch data: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
-    console.log(error);
+    console.log("Error fetching weather data:", error);
   }
 }
 
