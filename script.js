@@ -1,17 +1,57 @@
-const API_KEY = "REMOVED";
+function constructWeatherAPIUrl(
+  location,
+  startDate = null,
+  endDate = null,
+  units
+) {
+  const BASE_URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/`;
+  const API_KEY = "REMOVED";
+  startDate = startDate || "today";
+  endDate = endDate || "today";
 
-async function getTemperature(location) {
+  let unitGroup = "?unitGroup=";
+  switch (units) {
+    case "Celsius":
+      unitGroup += "metric";
+      break;
+    case "Fahrenheit":
+      unitGroup += "us";
+      break;
+    case "Kelvin":
+      unitGroup += "base";
+  }
+
+  return (
+    BASE_URL + `${location}/${startDate}/${endDate}${unitGroup}&key=${API_KEY}`
+  );
+}
+
+async function getWeatherData(location, startDate, endDate, units) {
   try {
-    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${API_KEY}`;
+    const url = constructWeatherAPIUrl(location, startDate, endDate, units);
+    console.log("Constructed URL:", url);
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
-    const data = await response.json();
-    console.log(data);
+    return await response.json();
   } catch (error) {
-    console.log(e);
+    console.log(error);
   }
 }
 
-getTemperature("Athens");
+(function handleFormSubmit() {
+  const form = document.querySelector(".request-data-form");
+  const submitButton = document.querySelector(".submit-btn");
+
+  submitButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const location = form.querySelector("#location").value.trim();
+    const startDate = form.querySelector("#start-date").value;
+    const endDate = form.querySelector("#end-date").value;
+    const units = form.querySelector("#units").value;
+
+    const weatherData = await getWeatherData(location, startDate, endDate, units);
+    console.log(weatherData);
+  });
+})();

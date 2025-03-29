@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="script.js" defer></script>
-  <link src="styles.css" type="styles">
-  <title>Weather App</title>
+  <link href="styles.css" rel="stylesheet" >
+  <title>Generic Weather App™</title>
 </head>
 <body>
-  
+  <h1>Generic Weather App™</h1>
+  <form class="request-data-form">
+    <label for="location">Location*:</label>
+    <input type="text" id="location" class="request-input" placeholder="City, Country" required>
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date" class="request-input">
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date" class="request-input">
+    <label for="units">Select Unit Type:</label>
+    <select id="units" class="request-input">
+      <option selected>Celsius</option>
+      <option>Fahrenheit</option>
+      <option>Kelvin</option>
+    </select>
+    <button type="submit" class="submit-btn">Get Weather</button>
+  </form>
 </body>
 </html>
