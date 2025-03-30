@@ -24,20 +24,38 @@ async function getWeatherData(location, units) {
     }
     return await response.json();
   } catch (error) {
-    console.log("Error fetching weather data:", error);
+    console.log("Error fetching weather data:", error,);
   }
 }
 
 (function handleFormSubmit() {
   const form = document.querySelector(".request-data-form");
-  const submitButton = document.querySelector(".submit-btn");
+  const unitToggle = form.querySelector("#unit-toggle");
+  const submitButton = form.querySelector(".submit-btn");
+
+  // let units = "";
+  // unitToggle.addEventListener("change", function() {
+  //   units = this.checked ? "Fahrenheit" : "Celsius";
+  // });
 
   submitButton.addEventListener("click", async (event) => {
     event.preventDefault();
     const location = form.querySelector("#location").value.trim();
-    const units = form.querySelector("#units").value;
 
     const weatherData = await getWeatherData(location, units);
     console.log(weatherData);
+  });
+})();
+
+
+// UI Stuff
+(function makeSegmentRespondToKeyboard () {
+  document.querySelectorAll('.segment-label').forEach( (label) => {
+    label.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        const radioButton = document.querySelector(`#${label.htmlFor}`);
+          radioButton.click();
+      }
+    });
   });
 })();

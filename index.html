@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="script.js" defer></script>
-  <link href="styles.css" rel="stylesheet" >
+  <link href="styles.css" rel="stylesheet">
   <title>Generic Weather App™</title>
 </head>
 <body>
@@ -12,14 +12,18 @@
     <h1>Generic Weather App™</h1>
   </header>
   <form class="request-data-form">
-    <label for="location">Location*:</label>
-    <input type="text" id="location" class="request-input" placeholder="City, Country" required>
-    <label for="units">Select Unit Type:</label>
-    <select id="units" class="request-input">
-      <option selected>Celsius</option>
-      <option>Fahrenheit</option>
-    </select>
-    <button type="submit" class="submit-btn">Search</button>
+    <div class="first-row">
+      <input type="text" id="location" class="request-input" placeholder="City, Country" aria-label="location" required>
+    
+      <div class="unit-selection" aria-label="unit-selection">
+        <input type="radio" name="units" id="celsius" value="Celsius" checked>
+        <label for="celsius" class="segment-label" tabindex="0">°C</label>
+        <input type="radio" name="units" id="fahrenheit" value="Fahrenheit">
+        <label for="fahrenheit" class="segment-label" tabindex="0">°F</label>
+      </div>      
+    </div>
+
+    <button type="submit" class="submit-btn">Get Weather</button>
   </form>
 </body>
 </html>
