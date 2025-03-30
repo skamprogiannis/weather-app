@@ -1,3 +1,5 @@
+import './styles.css';
+
 function constructWeatherAPIUrl(location, units) {
   const BASE_URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/`;
   const API_KEY = "REMOVED";
