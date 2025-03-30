@@ -1,34 +1,22 @@
-function constructWeatherAPIUrl(
-  location,
-  startDate = null,
-  endDate = null,
-  units
-) {
+function constructWeatherAPIUrl(location, units) {
   const BASE_URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/`;
   const API_KEY = "REMOVED";
-  startDate = startDate || "today";
-  endDate = endDate || "today";
 
   let unitGroup = "?unitGroup=";
-  switch (units) {
-    case "Celsius":
-      unitGroup += "metric";
-      break;
-    case "Fahrenheit":
-      unitGroup += "us";
-      break;
-    case "Kelvin":
-      unitGroup += "base";
+  if (units === "Celsius") {
+    unitGroup += "metric";
+  } else {
+    unitGroup += "us"
   }
 
   return (
-    BASE_URL + `${location}/${startDate}/${endDate}${unitGroup}&key=${API_KEY}`
+    BASE_URL + `${location}${unitGroup}&key=${API_KEY}`
   );
 }
 
-async function getWeatherData(location, startDate, endDate, units) {
+async function getWeatherData(location, units) {
   try {
-    const url = constructWeatherAPIUrl(location, startDate, endDate, units);
+    const url = constructWeatherAPIUrl(location, units);
     console.log("Constructed URL:", url);
     const response = await fetch(url);
     if (!response.ok) {
@@ -47,11 +35,9 @@ async function getWeatherData(location, startDate, endDate, units) {
   submitButton.addEventListener("click", async (event) => {
     event.preventDefault();
     const location = form.querySelector("#location").value.trim();
-    const startDate = form.querySelector("#start-date").value;
-    const endDate = form.querySelector("#end-date").value;
     const units = form.querySelector("#units").value;
 
-    const weatherData = await getWeatherData(location, startDate, endDate, units);
+    const weatherData = await getWeatherData(location, units);
     console.log(weatherData);
   });
 })();
