@@ -35,23 +35,23 @@
     <div class="weather-main">
       <div class="weather-description">
         <div id="weather-conditions" class="weather-conditions"></div>
-        <img id="weather-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23aaa' d='M0 0h24v24H0z' opacity='.2'/%3E%3C/svg%3E" alt="Weather icon">
+        <img id="weather-icon" src="/images/loading-circle.svg" alt="Weather icon">
         <div id="temp" class="temperature"></div>
       </div>
       
       <div class="weather-details">
         <div class="detail-item">
-          <div class="detail-icon">💨</div>
+          <img class="detail-icon" id="wind-icon" src="/images/detail/wind.svg" loading="lazy" alt="Wind">
           <div class="detail-label">Wind</div>
           <div id="wind-speed" class="detail-value"></div>
         </div>
         <div class="detail-item">
-          <div class="detail-icon">💧</div>
+          <img class="detail-icon" id="humidity-icon" src="/images/detail/humidity.svg" loading="lazy" alt="Humidity">
           <div class="detail-label">Humidity</div>
           <div id="humidity" class="detail-value"></div>
         </div>
         <div class="detail-item">
-          <div class="detail-icon">🌧️</div>
+          <img class="detail-icon" id="precip-icon" src="/images/detail/precipitation-rain.svg" loading="lazy" alt="Precipitation">
           <div class="detail-label">Precipitation</div>
           <div id="precip" class="detail-value"></div>
         </div>

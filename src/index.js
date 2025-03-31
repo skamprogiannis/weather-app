@@ -83,6 +83,26 @@ function displayAlerts(weatherData) {
   }
 }
 
+/**
+ * Gets the appropriate weather icon for the given condition
+ * @param {string} iconCode - Weather condition icon code from the API
+ * @returns {Promise<string>} - Path to the icon
+ */
+async function getWeatherIcon(iconCode) {
+  try {
+    return (
+      await import(
+        /* webpackMode: "lazy-once" */ `../images/main/${iconCode}.svg`
+      )
+    ).default;
+  } catch (error) {
+    console.error(`Failed to load icon: ${iconCode}`, error);
+    return (
+      await import(/* webpackMode: "eager" */ `../images/loading-circle.svg`)
+    ).default;
+  }
+}
+
 function displayCurrentConditions(weatherData, units) {
   const currentConditions = weatherData.currentConditions;
 
@@ -90,7 +110,9 @@ function displayCurrentConditions(weatherData, units) {
   conditionsElement.textContent = currentConditions.conditions || "";
 
   const iconElement = document.querySelector("#weather-icon");
-  iconElement.src = getWeatherIconUrl(currentConditions.icon);
+  getWeatherIcon(currentConditions.icon).then(
+    (iconPath) => (iconElement.src = iconPath)
+  );
 
   const tempElement = document.querySelector("#temp");
   const tempUnit = units === "celsius" ? "°C" : "°F";
@@ -105,7 +127,26 @@ function displayCurrentConditions(weatherData, units) {
 
   const precipElement = document.querySelector("#precip");
   const precipUnit = units === "celsius" ? "mm" : "in";
-  precipElement.textContent = `${currentConditions.precip} ${precipUnit}`;
+  const precipValue = currentConditions.precip || 0;
+  precipElement.textContent = `${precipValue} ${precipUnit}`;
+  const precipIcon = document.querySelector("#precip-icon");
+  if (
+    currentConditions.preciptype === "snow" ||
+    currentConditions.preciptype === "ice"
+  ) {
+    import(
+      /* webpackMode: "lazy-once" */ `../images/detail/precipitation-snow.svg`
+    )
+      .then((module) => {
+        precipIcon.src = module.default;
+      })
+      .catch((error) => {
+        console.error(
+          `Failed to load precipitation icon: ${precipIconType}`,
+          error
+        );
+      });
+  }
 }
 
 function displayHourlyForecast(weatherData, units) {
@@ -131,8 +172,10 @@ function displayHourlyForecast(weatherData, units) {
 
         const iconElement = document.createElement("img");
         iconElement.className = "hour-icon";
-        iconElement.src = getWeatherIconUrl(hour.icon);
-        iconElement.alt = hour.conditions;
+        iconElement.alt = hour.conditions || "Weather";
+        getWeatherIcon(hour.icon).then(
+          (iconPath) => (iconElement.src = iconPath)
+        );
 
         const tempElement = document.createElement("div");
         tempElement.className = "hour-temp";
@@ -147,30 +190,6 @@ function displayHourlyForecast(weatherData, units) {
   }
 }
 
-function getWeatherIconUrl(iconCode) {
-  const iconMap = {
-    "clear-day": "https://cdn-icons-png.flaticon.com/512/6974/6974833.png",
-    "clear-night": "https://cdn-icons-png.flaticon.com/512/3222/3222800.png",
-    "partly-cloudy-day":
-      "https://cdn-icons-png.flaticon.com/512/1146/1146869.png",
-    "partly-cloudy-night":
-      "https://cdn-icons-png.flaticon.com/512/7774/7774408.png",
-    cloudy: "https://cdn-icons-png.flaticon.com/512/414/414927.png",
-    rain: "https://cdn-icons-png.flaticon.com/512/3351/3351979.png",
-    "showers-day": "https://cdn-icons-png.flaticon.com/512/3076/3076129.png",
-    "showers-night": "https://cdn-icons-png.flaticon.com/512/3076/3076129.png",
-    fog: "https://cdn-icons-png.flaticon.com/512/4005/4005901.png",
-    snow: "https://cdn-icons-png.flaticon.com/512/642/642102.png",
-    wind: "https://cdn-icons-png.flaticon.com/512/2011/2011448.png",
-    thunderstorm: "https://cdn-icons-png.flaticon.com/512/3104/3104611.png",
-  };
-
-  return (
-    iconMap[iconCode] ||
-    "https://cdn-icons-png.flaticon.com/512/1146/1146869.png"
-  );
-}
-
 (function attachSearchSubmissionEventListener() {
   const form = document.querySelector(".request-data-form");
   const submitButton = form.querySelector(".submit-btn");
@@ -178,7 +197,9 @@ function getWeatherIconUrl(iconCode) {
   submitButton.addEventListener("click", async (event) => {
     event.preventDefault();
     const location = form.querySelector("#location").value.trim();
-    const units = form.querySelector("#celsius").checked ? "celsius" : "fahrenheit";
+    const units = form.querySelector("#celsius").checked
+      ? "celsius"
+      : "fahrenheit";
 
     const weatherData = await getWeatherData(location, units);
     console.log(weatherData);
