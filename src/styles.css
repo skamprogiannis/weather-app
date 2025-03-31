@@ -279,30 +279,29 @@ h1 {
 .weather-main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   margin-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .weather-description {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  padding-bottom: 15px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .weather-conditions {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: var(--main-text-color);
+  font-weight: 600;
 }
 
 #weather-icon {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
 }
 
 .temperature {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 600;
   color: var(--main-text-color);
 }
@@ -310,7 +309,8 @@ h1 {
 .weather-details {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  margin-bottom: 20px;
+
 }
 
 .detail-item {
@@ -323,8 +323,14 @@ h1 {
 }
 
 .detail-icon {
-  font-size: 1.8rem;
-  margin-bottom: 5px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+  object-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .detail-label {
@@ -381,9 +387,10 @@ h1 {
 }
 
 .hour-icon {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin: 5px 0;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
 }
 
 .hour-temp {
@@ -399,11 +406,48 @@ h1 {
   .weather-description {
     flex-direction: column;
     text-align: center;
-    gap: 10px;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+
+  .temperature {
+    font-size: 2.4rem;
   }
 
   .detail-item {
     min-width: 30%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .detail-icon {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .weather-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .detail-item {
+    min-width: unset;
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  #weather-icon {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .detail-icon, .hour-icon {
+    width: 36px;
+    height: 36px;
   }
 }
