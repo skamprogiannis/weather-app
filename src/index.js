@@ -15,7 +15,6 @@ import "./styles.css";
  * @property {Object[]} days - Forecast data for multiple days.
  */
 
-
 /**
  * Constructs a URL for fetching weather data from the Visual Crossing API.
  * @param {string} location - The location for which to fetch weather data (e.g., "New York, NY").
@@ -41,7 +40,7 @@ function constructWeatherAPIUrl(location, units) {
  * @param {string} location - The location for which to fetch weather data (e.g., "New York, NY").
  * @param {"celsius"|"fahrenheit"} units - The units for temperature ("celsius" for metric, "fahrenheit" for US).
  * @returns {Promise<WeatherData|undefined>} A promise resolving to the weather data object, or undefined if an error occurs.
- * 
+ *
  */
 async function getWeatherData(location, units) {
   try {
@@ -237,14 +236,16 @@ function getWeatherIconUrl(iconCode) {
  * Handles weather search form submission and updates the UI with weather data.
  * @returns {void}
  */
-const setupWeatherSearchHandler = (function () {
+function setupWeatherSearchHandler() {
   const form = document.querySelector(".request-data-form");
   const submitButton = form.querySelector(".submit-btn");
 
   submitButton.addEventListener("click", async (event) => {
     event.preventDefault();
     const location = form.querySelector("#location").value.trim();
-    const units = form.querySelector("#celsius").checked ? "celsius" : "fahrenheit";
+    const units = form.querySelector("#celsius").checked
+      ? "celsius"
+      : "fahrenheit";
 
     const weatherData = await getWeatherData(location, units);
     console.log(weatherData);
@@ -253,14 +254,14 @@ const setupWeatherSearchHandler = (function () {
       displayWeatherData(weatherData, units);
     }
   });
-})();
+}
 
 /**
  * Adds keyboard accessibility to radio button segments, allowing selection
  * using the Enter or Space keys.
  * @returns {void}
  */
-const makeSegmentRespondToKeyboard = (function () {
+function makeSegmentRespondToKeyboard() {
   document.querySelectorAll(".segment-label").forEach((label) => {
     label.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -269,4 +270,15 @@ const makeSegmentRespondToKeyboard = (function () {
       }
     });
   });
-})();
+}
+
+/**
+ * Sets up event listeners for the weather search form and the keyboard accessibility for radio buttons.
+ * @returns {void}
+ */
+function setupEventListeners() {
+  setupWeatherSearchHandler()
+  makeSegmentRespondToKeyboard();
+}
+
+setupEventListeners();
