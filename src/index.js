@@ -142,6 +142,7 @@ function displayCurrentConditions(weatherData, units) {
 
   const iconElement = document.querySelector("#weather-icon");
   iconElement.src = getWeatherIconUrl(currentConditions.icon);
+  iconElement.alt = currentConditions.conditions;
 
   const tempElement = document.querySelector("#temp");
   const tempUnit = units === "celsius" ? "°C" : "°F";
