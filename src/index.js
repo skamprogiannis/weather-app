@@ -147,6 +147,10 @@ function displayCurrentConditions(weatherData, units) {
         );
       });
   }
+  const feelsLikeElement = document.querySelector("#feels-like");
+  feelsLikeElement.textContent = `${Math.round(
+    currentConditions.feelslike
+  )}${tempUnit}`;
 }
 
 function displayHourlyForecast(weatherData, units) {
