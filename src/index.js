@@ -138,12 +138,12 @@ function displayCurrentConditions(weatherData, units) {
     import(
       /* webpackMode: "lazy-once" */ `../images/detail/precipitation-snow.svg`
     )
-      .then((module) => {
-        precipIcon.src = module.default;
+      .default.then((iconPath) => {
+        precipIcon.src = iconPath;
       })
       .catch((error) => {
         console.error(
-          `Failed to load precipitation icon: ${precipIconType}`,
+          "Failed to load precipitation icon: precipitation-snow",
           error
         );
       });

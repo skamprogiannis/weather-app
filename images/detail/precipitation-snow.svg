@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="cloud-fill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dee2e6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(32, 32)">
+    <!-- Cloud -->
+    <path d="M12,-12 C12,-19 5,-24 -3,-24 C-11,-24 -18,-19 -18,-12 C-18,-12 -18,-12 -18,-12 C-22,-12 -24,-10 -24,-6 C-24,-2 -21,0 -18,0 L12,0 C15,0 18,-2 18,-6 C18,-10 15,-12 12,-12 Z" fill="url(#cloud-fill)" />
+    
+    <!-- Snowflakes -->
+    <!-- Flake 1 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="-16,4; -16,20" dur="2s" repeatCount="indefinite" begin="0s" />
+      <animateTransform attributeName="transform" type="rotate" values="0; 180" dur="2s" repeatCount="indefinite" begin="0s" additive="sum" />
+      <path d="M0,-3 L0,3 M-3,0 L3,0 M-2,-2 L2,2 M-2,2 L2,-2" stroke="#57a0ee" stroke-width="1" stroke-linecap="round" />
+    </g>
+
+    <!-- Flake 2 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="-8,6; -8,22" dur="2.3s" repeatCount="indefinite" begin="0.2s" />
+      <animateTransform attributeName="transform" type="rotate" values="0; 180" dur="2.3s" repeatCount="indefinite" begin="0.2s" additive="sum" />
+      <path d="M0,-3 L0,3 M-3,0 L3,0 M-2,-2 L2,2 M-2,2 L2,-2" stroke="#57a0ee" stroke-width="1" stroke-linecap="round" />
+    </g>
+
+    <!-- Flake 3 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0,5; 0,21" dur="1.8s" repeatCount="indefinite" begin="0.4s" />
+      <animateTransform attributeName="transform" type="rotate" values="0; 180" dur="1.8s" repeatCount="indefinite" begin="0.4s" additive="sum" />
+      <path d="M0,-3 L0,3 M-3,0 L3,0 M-2,-2 L2,2 M-2,2 L2,-2" stroke="#57a0ee" stroke-width="1.2" stroke-linecap="round" />
+    </g>
+
+    <!-- Flake 4 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="8,6; 8,22" dur="2.2s" repeatCount="indefinite" begin="0.6s" />
+      <animateTransform attributeName="transform" type="rotate" values="0; 180" dur="2.2s" repeatCount="indefinite" begin="0.6s" additive="sum" />
+      <path d="M0,-3 L0,3 M-3,0 L3,0 M-2,-2 L2,2 M-2,2 L2,-2" stroke="#57a0ee" stroke-width="1" stroke-linecap="round" />
+    </g>
+
+    <!-- Flake 5 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="16,4; 16,20" dur="1.9s" repeatCount="indefinite" begin="0.8s" />
+      <animateTransform attributeName="transform" type="rotate" values="0; 180" dur="1.9s" repeatCount="indefinite" begin="0.8s" additive="sum" />
+      <path d="M0,-3 L0,3 M-3,0 L3,0 M-2,-2 L2,2 M-2,2 L2,-2" stroke="#57a0ee" stroke-width="1" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>
