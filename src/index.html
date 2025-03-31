@@ -23,5 +23,47 @@
 
     <button type="submit" class="submit-btn">Get Weather</button>
   </form>
+
+  <section id="weather-card" class="weather-card hidden">
+    <header class="weather-header">
+      <h2 id="city-name" class="city-name"></h2>
+      <p id="weather-date" class="weather-date"></p>
+    </header>
+    
+    <div id="weather-alerts" class="weather-alerts"></div>
+    
+    <div class="weather-main">
+      <div class="weather-description">
+        <div id="weather-conditions" class="weather-conditions"></div>
+        <img id="weather-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23aaa' d='M0 0h24v24H0z' opacity='.2'/%3E%3C/svg%3E" alt="Weather icon">
+        <div id="temp" class="temperature"></div>
+      </div>
+      
+      <div class="weather-details">
+        <div class="detail-item">
+          <div class="detail-icon">💨</div>
+          <div class="detail-label">Wind</div>
+          <div id="wind-speed" class="detail-value"></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">💧</div>
+          <div class="detail-label">Humidity</div>
+          <div id="humidity" class="detail-value"></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-icon">🌧️</div>
+          <div class="detail-label">Precipitation</div>
+          <div id="precip" class="detail-value"></div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="hourly-forecast">
+      <h3>Hourly Forecast</h3>
+      <div id="hour-carousel" class="hour-carousel">
+        <!-- Hourly forecast items will be added here dynamically -->
+      </div>
+    </footer>
+  </section>
 </body>
 </html>
