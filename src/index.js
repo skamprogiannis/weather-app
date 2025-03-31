@@ -253,8 +253,28 @@ function setupWeatherSearchHandler() {
 
     if (weatherData) {
       displayWeatherData(weatherData, units);
+      moveSearchFormToHeader();
     }
   });
+}
+
+/**
+ * Moves the weather search form to the header after the first search.
+ * @returns {void}
+ */
+function moveSearchFormToHeader() {
+  const header = document.querySelector("header");
+  header.classList.add("header-with-form");
+  const form = document.querySelector(".request-data-form");
+  form.classList.add("form-in-header");
+  const submitButton = form.querySelector(".submit-btn");
+  submitButton.classList.add("header-submit");
+  const firstRow = form.querySelector(".first-row");
+  const locationInput = form.querySelector("#location");
+  locationInput.value = "";
+
+  firstRow.appendChild(submitButton);
+  header.appendChild(form);
 }
 
 /**
@@ -278,7 +298,7 @@ function makeSegmentRespondToKeyboard() {
  * @returns {void}
  */
 function setupEventListeners() {
-  setupWeatherSearchHandler()
+  setupWeatherSearchHandler();
   makeSegmentRespondToKeyboard();
 }
 
