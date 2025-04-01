@@ -103,6 +103,30 @@ function displayWeatherCardHeader(weatherData) {
 }
 
 /**
+ * Toggles the visibility of an alert description and updates the expand/collapse icon
+ * @param {HTMLElement} alertDescription - The description element to toggle
+ */
+async function toggleAlertDescription(alertDescription) {
+  alertDescription.classList.toggle("hidden");
+  const alertExpandIcon = alertDescription.closest(".alert-item")
+  .querySelector(".alert-expand-icon");
+try {
+  const iconModule = alertDescription.classList.contains("hidden")
+    ? await import(
+        /* webpackMode: "lazy-once" */ "../images/misc/expand-circle-right-brown.svg"
+      )
+    : await import(
+        /* webpackMode: "lazy-once" */ "../images/misc/expand-circle-down-brown.svg"
+      );
+
+  const iconPath = iconModule.default;
+    alertExpandIcon.src = iconPath;
+  } catch (error) {
+    console.error("Failed to load expand/collapse icon:", error);
+  }
+}
+
+/**
  * Displays weather alerts if available.
  * @param {WeatherData} weatherData - The weather data retrieved from the API.
  */
@@ -115,14 +139,37 @@ function displayAlerts(weatherData) {
       const alertContainer = document.createElement("div");
       alertContainer.className = "alert-item";
 
+      const alertTitleButton = document.createElement("button");
+      alertTitleButton.className = "alert-title-button";
       const alertTitle = document.createElement("h4");
       alertTitle.className = "alert-title";
       alertTitle.textContent = alert.event || "Weather Alert";
-      alertContainer.appendChild(alertTitle);
+      const alertExpandIcon = document.createElement("img");
+      alertExpandIcon.className = "alert-expand-icon";
+
+      import(
+        /* webpackMode: "lazy-once" */ "../images/misc/expand-circle-right-brown.svg"
+      )
+        .then((module) => {
+          alertExpandIcon.src = module.default;
+        })
+        .catch((error) => {
+          console.error("Failed to load show description icon:", error);
+        });
+
+      alertTitleButton.appendChild(alertTitle);
+      alertTitleButton.appendChild(alertExpandIcon);
 
       const alertDescription = document.createElement("p");
       alertDescription.className = "alert-description";
+      alertDescription.classList.add("hidden");
       alertDescription.textContent = alert.description || "";
+
+      alertTitleButton.addEventListener("click", () => {
+        toggleAlertDescription(alertDescription);
+      });
+
+      alertContainer.appendChild(alertTitleButton);
       alertContainer.appendChild(alertDescription);
 
       alertsElement.appendChild(alertContainer);
@@ -145,7 +192,9 @@ async function getWeatherIcon(iconCode) {
   } catch (error) {
     console.error(`Failed to load icon: ${iconCode}`, error);
     return (
-      await import(/* webpackMode: "eager" */ `../images/loading-circle.svg`)
+      await import(
+        /* webpackMode: "eager" */ `../images/misc/loading-circle.svg`
+      )
     ).default;
   }
 }
