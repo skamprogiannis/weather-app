@@ -64,7 +64,7 @@ async function getWeatherData(location, units) {
  */
 function displayWeatherData(weatherData, units) {
   displayWeatherCard(weatherData, units);
-  //todo: displayFortnightlyForecast(weatherData, units);
+  displayFortnightlyForecast(weatherData, units);
 }
 
 /**
@@ -299,6 +299,94 @@ function displayHourlyForecast(weatherData, units) {
       }
     }
   }
+}
+
+/**
+ * Displays the 14-day weather forecast.
+ * @param {WeatherData} weatherData - The weather data retrieved from the API.
+ * @param {"celsius"|"fahrenheit"} units - The units for temperature.
+ */
+function displayFortnightlyForecast(weatherData, units) {
+  const forecastCard = document.querySelector(".forecast-card");
+  forecastCard.classList.remove("hidden");
+  
+  const dailyForecastElement = document.querySelector("#daily-forecast");
+  dailyForecastElement.innerHTML = "";
+  
+  const tempUnit = units === "celsius" ? "°C" : "°F";
+  
+  // Display forecast for the next 14 days, excluding today
+  if (weatherData.days && weatherData.days.length > 1) {
+    // Skip today (index 0) and get the next 14 days
+    const daysToShow = weatherData.days.slice(1, 15);
+    
+    // Create rows with two days per row
+    for (let i = 0; i < daysToShow.length; i += 2) {
+      const forecastRow = document.createElement("div");
+      forecastRow.className = "forecast-row";
+      
+      // Add first day of the pair
+      const firstDay = daysToShow[i];
+      addDayToRow(forecastRow, firstDay, i + 1, tempUnit);
+      
+      // Add second day if available
+      if (i + 1 < daysToShow.length) {
+        const secondDay = daysToShow[i + 1];
+        addDayToRow(forecastRow, secondDay, i + 2, tempUnit);
+      }
+      
+      dailyForecastElement.appendChild(forecastRow);
+    }
+  }
+}
+
+/**
+ * Adds a day forecast item to a forecast row.
+ * @param {HTMLElement} rowElement - The row element to add the day to.
+ * @param {Object} day - The day forecast data.
+ * @param {number} dayIndex - The index of the day (1 = tomorrow).
+ * @param {string} tempUnit - The temperature unit.
+ */
+function addDayToRow(rowElement, day, dayIndex, tempUnit) {
+  const dayElement = document.createElement("div");
+  dayElement.className = "day-item";
+  
+  // Format the date
+  const date = new Date(day.datetime);
+  const formattedDate = dayIndex === 1 
+    ? "Tomorrow" 
+    : date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  
+  const dateElement = document.createElement("div");
+  dateElement.className = "day-date";
+  dateElement.textContent = formattedDate;
+  
+  const iconElement = document.createElement("img");
+  iconElement.className = "day-icon";
+  iconElement.alt = day.conditions || "Weather";
+  getWeatherIcon(day.icon).then(
+    (iconPath) => (iconElement.src = iconPath)
+  );
+  
+  const tempElement = document.createElement("div");
+  tempElement.className = "day-temp";
+  
+  const maxTempElement = document.createElement("div");
+  maxTempElement.className = "day-max";
+  maxTempElement.textContent = `${Math.round(day.tempmax)}${tempUnit}`;
+  
+  const minTempElement = document.createElement("div");
+  minTempElement.className = "day-min";
+  minTempElement.textContent = `${Math.round(day.tempmin)}${tempUnit}`;
+  
+  tempElement.appendChild(maxTempElement);
+  tempElement.appendChild(minTempElement);
+  
+  dayElement.appendChild(dateElement);
+  dayElement.appendChild(iconElement);
+  dayElement.appendChild(tempElement);
+  
+  rowElement.appendChild(dayElement);
 }
 
 /**

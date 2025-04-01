@@ -24,51 +24,63 @@
     <button type="submit" class="submit-btn">Get Weather</button>
   </form>
 
-  <section id="weather-card" class="weather-card hidden">
-    <header class="weather-header">
-      <h2 id="city-name" class="city-name"></h2>
-      <p id="weather-date" class="weather-date"></p>
-    </header>
-    
-    <div id="weather-alerts" class="weather-alerts"></div>
-    
-    <div class="weather-main">
-      <div class="weather-description">
-        <div id="weather-conditions" class="weather-conditions"></div>
-        <img id="weather-icon" src="/images/misc/loading-circle.svg" alt="Weather icon">
-        <div id="temp" class="temperature"></div>
+  <div class="weather-container">
+    <section id="weather-card" class="weather-card hidden">
+      <header class="weather-header">
+        <h2 id="city-name" class="city-name"></h2>
+        <p id="weather-date" class="weather-date"></p>
+      </header>
+      
+      <div id="weather-alerts" class="weather-alerts"></div>
+      
+      <div class="weather-main">
+        <div class="weather-description">
+          <div id="weather-conditions" class="weather-conditions"></div>
+          <img id="weather-icon" src="/images/misc/loading-circle.svg" alt="Weather icon">
+          <div id="temp" class="temperature"></div>
+        </div>
+        
+        <div class="weather-details">
+          <div class="detail-item">
+            <img class="detail-icon" id="wind-icon" src="/images/detail/wind.svg" loading="lazy" alt="Wind">
+            <div class="detail-label">Wind</div>
+            <div id="wind-speed" class="detail-value"></div>
+          </div>
+          <div class="detail-item">
+            <img class="detail-icon" id="humidity-icon" src="/images/detail/humidity.svg" loading="lazy" alt="Humidity">
+            <div class="detail-label">Humidity</div>
+            <div id="humidity" class="detail-value"></div>
+          </div>
+          <div class="detail-item">
+            <img class="detail-icon" id="precip-icon" src="/images/detail/precipitation-rain.svg" loading="lazy" alt="Precipitation">
+            <div class="detail-label">Precipitation</div>
+            <div id="precip" class="detail-value"></div>
+          </div>
+          <div class="detail-item">
+            <img class="detail-icon" id="feels-like-icon" src="/images/detail/feels-like.svg" loading="lazy" alt="Feels Like">
+            <div class="detail-label">Feels Like</div>
+            <div id="feels-like" class="detail-value"></div>
+          </div>
+        </div>
       </div>
       
-      <div class="weather-details">
-        <div class="detail-item">
-          <img class="detail-icon" id="wind-icon" src="/images/detail/wind.svg" loading="lazy" alt="Wind">
-          <div class="detail-label">Wind</div>
-          <div id="wind-speed" class="detail-value"></div>
+      <footer class="hourly-forecast">
+        <h3>Hourly Forecast</h3>
+        <div id="hour-carousel" class="hour-carousel">
+          <!-- Hourly forecast items will be added here dynamically -->
         </div>
-        <div class="detail-item">
-          <img class="detail-icon" id="humidity-icon" src="/images/detail/humidity.svg" loading="lazy" alt="Humidity">
-          <div class="detail-label">Humidity</div>
-          <div id="humidity" class="detail-value"></div>
-        </div>
-        <div class="detail-item">
-          <img class="detail-icon" id="precip-icon" src="/images/detail/precipitation-rain.svg" loading="lazy" alt="Precipitation">
-          <div class="detail-label">Precipitation</div>
-          <div id="precip" class="detail-value"></div>
-        </div>
-        <div class="detail-item">
-          <img class="detail-icon" id="feels-like-icon" src="/images/detail/feels-like.svg" loading="lazy" alt="Feels Like">
-          <div class="detail-label">Feels Like</div>
-          <div id="feels-like" class="detail-value"></div>
-        </div>
-      </div>
-    </div>
+      </footer>
+    </section>
     
-    <footer class="hourly-forecast">
-      <h3>Hourly Forecast</h3>
-      <div id="hour-carousel" class="hour-carousel">
-        <!-- Hourly forecast items will be added here dynamically -->
+    <section id="forecast-card" class="forecast-card hidden">
+      <header class="forecast-header">
+        <h2>14-Day Forecast</h2>
+      </header>
+      
+      <div id="daily-forecast" class="daily-forecast">
+        <!-- Daily forecast items will be added here dynamically -->
       </div>
-    </footer>
-  </section>
+    </section>
+  </div>
 </body>
 </html>
