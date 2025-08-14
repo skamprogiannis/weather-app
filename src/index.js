@@ -64,7 +64,7 @@ async function getWeatherData(location, units) {
  */
 function displayWeatherData(weatherData, units) {
   displayWeatherCard(weatherData, units);
-  //todo: displayFortnightlyForecast(weatherData, units);
+  displayFortnightlyForecast(weatherData, units);
 }
 
 /**
@@ -294,6 +294,61 @@ function displayHourlyForecast(weatherData, units) {
         carouselElement.appendChild(hourElement);
       }
     }
+  }
+}
+
+/**
+ * Displays the 14-day weather forecast.
+ * @param {WeatherData} weatherData - The weather data retrieved from the API.
+ * @param {"celsius"|"fahrenheit"} units - The units for temperature.
+ */
+function displayFortnightlyForecast(weatherData, units) {
+  const forecastCard = document.querySelector(".forecast-card");
+  forecastCard.classList.remove("hidden");
+  
+  const dailyForecastElement = document.querySelector("#daily-forecast");
+  dailyForecastElement.innerHTML = "";
+  
+  const tempUnit = units === "celsius" ? "°C" : "°F";
+  
+  // Display forecast for the next 14 days, excluding today
+  if (weatherData.days && weatherData.days.length > 1) {
+    // Skip today (index 0) and get the next 14 days
+    const daysToShow = weatherData.days.slice(1, 15);
+    
+    daysToShow.forEach(day => {
+      const dayElement = document.createElement("div");
+      dayElement.classList.add("forecast-day");
+
+      const date = new Date(day.datetime).toLocaleDateString("en-us", { weekday: "short", month: "short", day: "numeric" });
+      const dateElement = document.createElement("div");
+      dateElement.className = "forecast-day-date";
+      dateElement.textContent = date;
+
+      const iconElement = document.createElement("img");
+      iconElement.className = "forecast-day-icon";
+      iconElement.alt = day.conditions || "Weather";
+      getWeatherIcon(day.icon).then(
+        (iconPath) => (iconElement.src = iconPath)
+      );
+
+      const tempElement = document.createElement("div");
+      tempElement.className = "forecast-day-temp";
+      const maxTempElement = document.createElement("div");
+      maxTempElement.className = "forecast-day-max";
+      maxTempElement.textContent = `${Math.round(day.tempmax)}${tempUnit}`;  
+      const minTempElement = document.createElement("div");
+      minTempElement.className = "forecast-day-min";
+      minTempElement.textContent = `${Math.round(day.tempmin)}${tempUnit}`;     
+      tempElement.appendChild(maxTempElement);
+      tempElement.appendChild(minTempElement);
+
+      dayElement.appendChild(dateElement);
+      dayElement.appendChild(iconElement);
+      dayElement.appendChild(tempElement);
+
+      dailyForecastElement.appendChild(dayElement);
+    })
   }
 }
 
