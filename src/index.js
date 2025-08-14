@@ -363,8 +363,7 @@ function setupWeatherSearchHandler() {
       : "fahrenheit";
 
     const weatherData = await fetchWeather(location, units);
-    console.log(weatherData);
-
+    
     if (weatherData) {
       displayWeatherData(weatherData, units);
       moveSearchFormToHeader();
