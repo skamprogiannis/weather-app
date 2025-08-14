@@ -126,57 +126,6 @@ async function initAlertDetails(alertDetails) {
   });
 }
 
-// /**
-//  * Displays weather alerts if available.
-//  * @param {WeatherData} weatherData - The weather data retrieved from the API.
-//  */
-// function displayAlerts(weatherData) {
-//   const alertsElement = document.querySelector("#weather-alerts");
-//   alertsElement.innerHTML = "";
-
-//   if (weatherData.alerts && weatherData.alerts.length > 0) {
-//     weatherData.alerts.forEach((alert) => {
-//       const alertContainer = document.createElement("div");
-//       alertContainer.className = "alert-item";
-
-//       const alertTitleButton = document.createElement("button");
-//       alertTitleButton.className = "alert-title-button";
-//       const alertTitle = document.createElement("h4");
-//       alertTitle.className = "alert-title";
-//       alertTitle.textContent = alert.event || "Weather Alert";
-//       const alertExpandIcon = document.createElement("img");
-//       alertExpandIcon.className = "alert-expand-icon";
-
-//       import(
-//         /* webpackMode: "lazy-once" */ "../images/misc/expand-circle-right-brown.svg"
-//       )
-//         .then((module) => {
-//           alertExpandIcon.src = module.default;
-//         })
-//         .catch((error) => {
-//           console.error("Failed to load show description icon:", error);
-//         });
-
-//       alertTitleButton.appendChild(alertTitle);
-//       alertTitleButton.appendChild(alertExpandIcon);
-
-//       const alertDescription = document.createElement("p");
-//       alertDescription.className = "alert-description";
-//       alertDescription.classList.add("hidden");
-//       alertDescription.textContent = alert.description || "";
-
-//       alertTitleButton.addEventListener("click", () => {
-//         toggleAlertDescription(alertDescription);
-//       });
-
-//       alertContainer.appendChild(alertTitleButton);
-//       alertContainer.appendChild(alertDescription);
-
-//       alertsElement.appendChild(alertContainer);
-//     });
-//   }
-// }
-
 /**
  * Displays weather alerts using <details> elements.
  * @param {WeatherData} weatherData - The weather data retrieved from the API.
