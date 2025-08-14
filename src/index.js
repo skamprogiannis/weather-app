@@ -253,6 +253,7 @@ function displayCurrentConditions(weatherData, units) {
 
 /**
  * Displays the hourly weather forecast for the next 24 hours.
+ * Optimized with DocumentFragment to minimize DOM reflows.
  * @param {WeatherData} weatherData - The weather data retrieved from the API.
  * @param {"celsius"|"fahrenheit"} units - The units for temperature.
  */
@@ -265,62 +266,69 @@ function displayHourlyForecast(weatherData, units) {
   const tempUnit = units === "celsius" ? "°C" : "°F";
 
   if (today && today.hours) {
+    const fragment = document.createDocumentFragment();
+
     for (let i = currentHour; i < currentHour + 24; i++) {
       const hourIndex = i % 24;
       const hour = today.hours[hourIndex];
 
-      if (hour) {
-        const hourElement = document.createElement("div");
-        hourElement.className = "hour-item";
+      if (!hour) continue;
 
-        const timeElement = document.createElement("div");
-        timeElement.className = "hour-time";
-        timeElement.textContent = `${hourIndex}:00`;
+      const hourElement = document.createElement("div");
+      hourElement.className = "hour-item";
 
-        const iconElement = document.createElement("img");
-        iconElement.className = "hour-icon";
-        iconElement.alt = hour.conditions || "Weather";
-        getWeatherIcon(hour.icon).then(
-          (iconPath) => (iconElement.src = iconPath)
-        );
+      const timeElement = document.createElement("div");
+      timeElement.className = "hour-time";
+      timeElement.textContent = `${hourIndex}:00`;
 
-        const tempElement = document.createElement("div");
-        tempElement.className = "hour-temp";
-        tempElement.textContent = `${Math.round(hour.temp)}${tempUnit}`;
+      const iconElement = document.createElement("img");
+      iconElement.className = "hour-icon";
+      iconElement.alt = hour.conditions || "Weather";
+      getWeatherIcon(hour.icon).then((iconPath) => {
+        iconElement.src = iconPath;
+      });
 
-        hourElement.appendChild(timeElement);
-        hourElement.appendChild(iconElement);
-        hourElement.appendChild(tempElement);
-        carouselElement.appendChild(hourElement);
-      }
+      const tempElement = document.createElement("div");
+      tempElement.className = "hour-temp";
+      tempElement.textContent = `${Math.round(hour.temp)}${tempUnit}`;
+
+      hourElement.append(timeElement, iconElement, tempElement);
+      fragment.appendChild(hourElement);
     }
+
+    carouselElement.appendChild(fragment);
   }
 }
 
 /**
  * Displays the 14-day weather forecast.
+ * Optimized with DocumentFragment to minimize DOM reflows.
  * @param {WeatherData} weatherData - The weather data retrieved from the API.
  * @param {"celsius"|"fahrenheit"} units - The units for temperature.
  */
 function displayFortnightlyForecast(weatherData, units) {
   const forecastCard = document.querySelector(".forecast-card");
   forecastCard.classList.remove("hidden");
-  
+
   const dailyForecastElement = document.querySelector("#daily-forecast");
   dailyForecastElement.innerHTML = "";
-  
+
   const tempUnit = units === "celsius" ? "°C" : "°F";
-  
-  // Display forecast for the next 14 days, excluding today
+
   if (weatherData.days && weatherData.days.length > 1) {
-    // Skip today (index 0) and get the next 14 days
     const daysToShow = weatherData.days.slice(1, 15);
-    
+    const fragment = document.createDocumentFragment();
+
     daysToShow.forEach(day => {
       const dayElement = document.createElement("div");
       dayElement.classList.add("forecast-day");
 
-      const date = new Date(day.datetime).toLocaleDateString("en-us", { weekday: "short", month: "short", day: "numeric" });
+      const date = new Date(day.datetime).toLocaleDateString("en-us", {
+        weekday: "short",
+        month: "short",
+        day: "numeric"
+      });
+
       const dateElement = document.createElement("div");
       dateElement.className = "forecast-day-date";
       dateElement.textContent = date;
@@ -328,29 +336,31 @@ function displayFortnightlyForecast(weatherData, units) {
       const iconElement = document.createElement("img");
       iconElement.className = "forecast-day-icon";
       iconElement.alt = day.conditions || "Weather";
-      getWeatherIcon(day.icon).then(
-        (iconPath) => (iconElement.src = iconPath)
-      );
+      getWeatherIcon(day.icon).then(iconPath => {
+        iconElement.src = iconPath;
+      });
 
       const tempElement = document.createElement("div");
       tempElement.className = "forecast-day-temp";
+
       const maxTempElement = document.createElement("div");
       maxTempElement.className = "forecast-day-max";
-      maxTempElement.textContent = `${Math.round(day.tempmax)}${tempUnit}`;  
+      maxTempElement.textContent = `${Math.round(day.tempmax)}${tempUnit}`;
+
       const minTempElement = document.createElement("div");
       minTempElement.className = "forecast-day-min";
-      minTempElement.textContent = `${Math.round(day.tempmin)}${tempUnit}`;     
-      tempElement.appendChild(maxTempElement);
-      tempElement.appendChild(minTempElement);
+      minTempElement.textContent = `${Math.round(day.tempmin)}${tempUnit}`;
 
-      dayElement.appendChild(dateElement);
-      dayElement.appendChild(iconElement);
-      dayElement.appendChild(tempElement);
+      tempElement.append(maxTempElement, minTempElement);
 
-      dailyForecastElement.appendChild(dayElement);
-    })
+      dayElement.append(dateElement, iconElement, tempElement);
+      fragment.appendChild(dayElement);
+    });
+
+    dailyForecastElement.appendChild(fragment);
   }
 }
+
 
 /**
  * Handles weather search form submission and updates the UI with weather data.
