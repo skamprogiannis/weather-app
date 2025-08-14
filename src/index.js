@@ -149,7 +149,7 @@ function displayAlerts(weatherData) {
       const alertExpandIcon = document.createElement("img");
       alertExpandIcon.className = "alert-expand-icon";
       
-      // Set default icon (closed state)
+
       import(/* webpackMode: "lazy-once" */ "../images/misc/expand-circle-right-brown.svg")
         .then((module) => {
           alertExpandIcon.src = module.default;
