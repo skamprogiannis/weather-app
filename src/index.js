@@ -16,46 +16,30 @@ import "./styles.css";
  */
 
 /**
- * Constructs a URL for fetching weather data from the Visual Crossing API.
- * @param {string} location - The location for which to fetch weather data (e.g., "New York, NY").
- * @param {"celsius"|"fahrenheit"} units - The units for temperature ("celsius" for metric, "fahrenheit" for US).
- * @returns {string} The complete API URL for fetching weather data.
+ * Fetches weather data from the Vercel serverless endpoint.
+ * Keeps the API key hidden from the client.
+ * @param {string} location - The location to fetch weather data for (e.g., "New York, NY").
+ * @param {"celsius"|"fahrenheit"} [units="celsius"] - The units for temperature.
+ * @returns {Promise<WeatherData>} The weather data object returned by the serverless function.
+ * @throws {Error} If the request fails or the server returns an error.
  */
-function constructWeatherAPIUrl(location, units) {
-  const BASE_URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/`;
-  const API_KEY = "REMOVED";
+async function fetchWeather(location, units = "celsius") {
+  if (!location) throw new Error("Location is required to fetch weather data.");
 
-  let unitGroup = "?unitGroup=";
-  if (units === "celsius") {
-    unitGroup += "metric";
-  } else {
-    unitGroup += "us";
+  const queryParams = new URLSearchParams({ location, units });
+  const url = `/api/weather?${queryParams.toString()}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `Failed to fetch weather data: ${response.status}`);
   }
 
-  return BASE_URL + `${location}${unitGroup}&key=${API_KEY}`;
+  const data = await response.json();
+  return data;
 }
 
-/**
- * Fetches weather data from the Visual Crossing API.
- * @param {string} location - The location for which to fetch weather data (e.g., "New York, NY").
- * @param {"celsius"|"fahrenheit"} units - The units for temperature ("celsius" for metric, "fahrenheit" for US).
- * @returns {Promise<WeatherData|undefined>} A promise resolving to the weather data object, or undefined if an error occurs.
- *
- */
-async function getWeatherData(location, units) {
-  try {
-    const url = constructWeatherAPIUrl(location, units);
-    console.log("Constructed URL:", url);
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Error fetching weather data:", error);
-  }
-}
+
 
 /**
  * Displays the weather data on the webpage.
@@ -377,7 +361,7 @@ function setupWeatherSearchHandler() {
       ? "celsius"
       : "fahrenheit";
 
-    const weatherData = await getWeatherData(location, units);
+    const weatherData = await fetchWeather(location, units);
     console.log(weatherData);
 
     if (weatherData) {
