@@ -1,4 +1,5 @@
 import "./styles.css";
+import { inject as initAnalytics } from "@vercel/analytics"
 
 /**
  * @typedef {Object} WeatherData
@@ -416,3 +417,4 @@ function setupEventListeners() {
 }
 
 setupEventListeners();
+initAnalytics();
