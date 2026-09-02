@@ -12,7 +12,8 @@
     "build": "webpack",
     "dev": "webpack serve",
     "deploy": "git subtree push --prefix dist origin gh-pages",
-    "jsdoc": "npx jsdoc src -r -d docs"
+    "jsdoc": "npx jsdoc src -r -d docs",
+    "test": "node --test"
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",
