@@ -2,3 +2,4 @@
 ui.js
 /node_modules
 /dist
+/.vercel
