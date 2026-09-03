@@ -19,7 +19,7 @@
 
     <h1 class="page-title">Global</h1>
 
-    
+
 
 
 
@@ -27,277 +27,92 @@
 <section>
 
 <header>
-    
+
         <h2></h2>
-        
-    
+
+
 </header>
 
 <article>
     <div class="container-overview">
-    
-        
 
-        
+
+
+
 
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </dl>
 
 
-        
-    
+
+
     </div>
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
         <h3 class="subsection-title">Methods</h3>
 
-        
-            
 
-    
 
-    
-    <h4 class="name" id="constructWeatherAPIUrl"><span class="type-signature"></span>constructWeatherAPIUrl<span class="signature">(location, units)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
 
-    
 
 
 
-<div class="description">
-    Constructs a URL for fetching weather data from the Visual Crossing API.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>location</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The location for which to fetch weather data (e.g., "New York, NY").</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>units</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"celsius"</span>
-|
-
-<span class="param-type">"fahrenheit"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The units for temperature ("celsius" for metric, "fahrenheit" for US).</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line24">line 24</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The complete API URL for fetching weather data.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="displayAlerts"><span class="type-signature"></span>displayAlerts<span class="signature">(weatherData)</span><span class="type-signature"></span></h4>
-    
 
-    
+
+
 
 
 
 <div class="description">
-    Displays weather alerts if available.
+    Displays weather alerts using <details> elements.
 </div>
 
 
@@ -309,50 +124,50 @@
 
 
     <h5>Parameters:</h5>
-    
+
 
 <table class="params">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>weatherData</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type"><a href="global.html#WeatherData">WeatherData</a></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather data retrieved from the API.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -363,42 +178,42 @@
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line109">line 109</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line96">line 96</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -420,16 +235,16 @@
 
 
 
-        
-            
 
-    
 
-    
+
+
+
+
     <h4 class="name" id="displayCurrentConditions"><span class="type-signature"></span>displayCurrentConditions<span class="signature">(weatherData, units)</span><span class="type-signature"></span></h4>
-    
 
-    
+
+
 
 
 
@@ -446,76 +261,76 @@
 
 
     <h5>Parameters:</h5>
-    
+
 
 <table class="params">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>weatherData</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type"><a href="global.html#WeatherData">WeatherData</a></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather data retrieved from the API.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>units</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">"celsius"</span>
 |
 
 <span class="param-type">"fahrenheit"</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The units for temperature.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -526,42 +341,42 @@
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line158">line 158</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line167">line 167</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -583,21 +398,22 @@
 
 
 
-        
-            
 
-    
 
-    
-    <h4 class="name" id="displayHourlyForecast"><span class="type-signature"></span>displayHourlyForecast<span class="signature">(weatherData, units)</span><span class="type-signature"></span></h4>
-    
 
-    
+
+
+
+    <h4 class="name" id="displayFortnightlyForecast"><span class="type-signature"></span>displayFortnightlyForecast<span class="signature">(weatherData, units)</span><span class="type-signature"></span></h4>
+
+
+
 
 
 
 <div class="description">
-    Displays the hourly weather forecast for the next 24 hours.
+    Displays the 14-day weather forecast.
+Optimized with DocumentFragment to minimize DOM reflows.
 </div>
 
 
@@ -609,76 +425,76 @@
 
 
     <h5>Parameters:</h5>
-    
+
 
 <table class="params">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>weatherData</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type"><a href="global.html#WeatherData">WeatherData</a></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather data retrieved from the API.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>units</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">"celsius"</span>
 |
 
 <span class="param-type">"fahrenheit"</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The units for temperature.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -689,42 +505,42 @@
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line214">line 214</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line261">line 261</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -746,16 +562,180 @@
 
 
 
-        
-            
 
-    
 
-    
+
+
+
+
+    <h4 class="name" id="displayHourlyForecast"><span class="type-signature"></span>displayHourlyForecast<span class="signature">(weatherData, units)</span><span class="type-signature"></span></h4>
+
+
+
+
+
+
+<div class="description">
+    Displays the hourly weather forecast for the next 24 hours.
+Optimized with DocumentFragment to minimize DOM reflows.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+
+
+<table class="params">
+    <thead>
+    <tr>
+
+        <th>Name</th>
+
+
+        <th>Type</th>
+
+
+
+
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+
+        <tr>
+
+                <td class="name"><code>weatherData</code></td>
+
+
+            <td class="type">
+
+
+<span class="param-type"><a href="global.html#WeatherData">WeatherData</a></span>
+
+
+
+            </td>
+
+
+
+
+
+            <td class="description last">The weather data retrieved from the API.</td>
+        </tr>
+
+
+
+        <tr>
+
+                <td class="name"><code>units</code></td>
+
+
+            <td class="type">
+
+
+<span class="param-type">"celsius"</span>
+|
+
+<span class="param-type">"fahrenheit"</span>
+
+
+
+            </td>
+
+
+
+
+
+            <td class="description last">The units for temperature.</td>
+        </tr>
+
+
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line215">line 215</a>
+    </li></ul></dd>
+
+
+
+
+
+
+
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <h4 class="name" id="displayWeatherCard"><span class="type-signature"></span>displayWeatherCard<span class="signature">(weatherData, units)</span><span class="type-signature"></span></h4>
-    
 
-    
+
+
 
 
 
@@ -772,76 +752,76 @@
 
 
     <h5>Parameters:</h5>
-    
+
 
 <table class="params">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>weatherData</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type"><a href="global.html#WeatherData">WeatherData</a></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather data retrieved from the API.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>units</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">"celsius"</span>
 |
 
 <span class="param-type">"fahrenheit"</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The units for temperature.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -852,42 +832,42 @@
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line75">line 75</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line38">line 38</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -909,16 +889,16 @@
 
 
 
-        
-            
 
-    
 
-    
+
+
+
+
     <h4 class="name" id="displayWeatherCardHeader"><span class="type-signature"></span>displayWeatherCardHeader<span class="signature">(weatherData)</span><span class="type-signature"></span></h4>
-    
 
-    
+
+
 
 
 
@@ -935,50 +915,50 @@
 
 
     <h5>Parameters:</h5>
-    
+
 
 <table class="params">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>weatherData</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type"><a href="global.html#WeatherData">WeatherData</a></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather data retrieved from the API.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -989,42 +969,42 @@
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line88">line 88</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line51">line 51</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -1046,16 +1026,16 @@
 
 
 
-        
-            
 
-    
 
-    
+
+
+
+
     <h4 class="name" id="displayWeatherData"><span class="type-signature"></span>displayWeatherData<span class="signature">(weatherData, units)</span><span class="type-signature"></span></h4>
-    
 
-    
+
+
 
 
 
@@ -1072,76 +1052,76 @@
 
 
     <h5>Parameters:</h5>
-    
+
 
 <table class="params">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>weatherData</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type"><a href="global.html#WeatherData">WeatherData</a></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather data retrieved from the API.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>units</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">"celsius"</span>
 |
 
 <span class="param-type">"fahrenheit"</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The units for temperature.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -1152,42 +1132,42 @@
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line65">line 65</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line28">line 28</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -1209,201 +1189,16 @@
 
 
 
-        
-            
 
-    
 
-    
-    <h4 class="name" id="getWeatherData"><span class="type-signature">(async) </span>getWeatherData<span class="signature">(location, units)</span><span class="type-signature"> &rarr; {Promise.&lt;(<a href="global.html#WeatherData">WeatherData</a>|undefined)>}</span></h4>
-    
 
-    
 
 
 
-<div class="description">
-    Fetches weather data from the Visual Crossing API.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>location</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The location for which to fetch weather data (e.g., "New York, NY").</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>units</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"celsius"</span>
-|
-
-<span class="param-type">"fahrenheit"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The units for temperature ("celsius" for metric, "fahrenheit" for US).</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line45">line 45</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    A promise resolving to the weather data object, or undefined if an error occurs.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;(<a href="global.html#WeatherData">WeatherData</a>|undefined)></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="getWeatherIcon"><span class="type-signature">(async) </span>getWeatherIcon<span class="signature">(iconCode)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span></h4>
-    
 
-    
+
+
 
 
 
@@ -1420,50 +1215,50 @@
 
 
     <h5>Parameters:</h5>
-    
+
 
 <table class="params">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>iconCode</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">string</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">Weather condition icon code from the API</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -1474,42 +1269,42 @@
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line138">line 138</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line145">line 145</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -1528,7 +1323,7 @@
 
 <h5>Returns:</h5>
 
-        
+
 <div class="param-desc">
     - Path to the icon
 </div>
@@ -1540,35 +1335,34 @@
         Type
     </dt>
     <dd>
-        
+
 <span class="param-type">Promise.&lt;string></span>
 
 
     </dd>
 </dl>
 
-    
 
 
 
 
 
-        
-            
 
-    
 
-    
-    <h4 class="name" id="makeSegmentRespondToKeyboard"><span class="type-signature"></span>makeSegmentRespondToKeyboard<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
 
-    
+
+
+
+
+    <h4 class="name" id="initAlertDetails"><span class="type-signature">(async) </span>initAlertDetails<span class="signature">(alertDetails)</span><span class="type-signature"></span></h4>
+
+
+
 
 
 
 <div class="description">
-    Adds keyboard accessibility to radio button segments, allowing selection
-using the Enter or Space keys.
+    Initializes toggle behavior for an alert <details> element and updates the expand/collapse icon
 </div>
 
 
@@ -1579,48 +1373,97 @@ using the Enter or Space keys.
 
 
 
+    <h5>Parameters:</h5>
+
+
+<table class="params">
+    <thead>
+    <tr>
+
+        <th>Name</th>
+
+
+        <th>Type</th>
+
+
+
+
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+
+        <tr>
+
+                <td class="name"><code>alertDetails</code></td>
+
+
+            <td class="type">
+
+
+<span class="param-type">HTMLDetailsElement</span>
+
+
+
+            </td>
+
+
+
+
+
+            <td class="description last">The <details> element wrapping the alert</td>
+        </tr>
+
+
+    </tbody>
+</table>
+
+
 
 
 
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line304">line 304</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line72">line 72</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -1637,39 +1480,21 @@ using the Enter or Space keys.
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
 
 
-        
-            
 
-    
 
-    
+
+
+
+
     <h4 class="name" id="moveSearchFormToHeader"><span class="type-signature"></span>moveSearchFormToHeader<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
 
-    
+
+
 
 
 
@@ -1691,42 +1516,42 @@ using the Enter or Space keys.
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line284">line 284</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line373">line 373</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -1745,7 +1570,7 @@ using the Enter or Space keys.
 
 <h5>Returns:</h5>
 
-        
+
 
 
 <dl>
@@ -1753,29 +1578,29 @@ using the Enter or Space keys.
         Type
     </dt>
     <dd>
-        
+
 <span class="param-type">void</span>
 
 
     </dd>
 </dl>
 
-    
 
 
 
 
 
-        
-            
 
-    
 
-    
+
+
+
+
+
     <h4 class="name" id="setupEventListeners"><span class="type-signature"></span>setupEventListeners<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
 
-    
+
+
 
 
 
@@ -1797,42 +1622,42 @@ using the Enter or Space keys.
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line319">line 319</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line391">line 391</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -1851,7 +1676,7 @@ using the Enter or Space keys.
 
 <h5>Returns:</h5>
 
-        
+
 
 
 <dl>
@@ -1859,29 +1684,29 @@ using the Enter or Space keys.
         Type
     </dt>
     <dd>
-        
+
 <span class="param-type">void</span>
 
 
     </dd>
 </dl>
 
-    
 
 
 
 
 
-        
-            
 
-    
 
-    
+
+
+
+
+
     <h4 class="name" id="setupWeatherSearchHandler"><span class="type-signature"></span>setupWeatherSearchHandler<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
 
-    
+
+
 
 
 
@@ -1903,42 +1728,42 @@ using the Enter or Space keys.
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line259">line 259</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line321">line 321</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -1957,7 +1782,7 @@ using the Enter or Space keys.
 
 <h5>Returns:</h5>
 
-        
+
 
 
 <dl>
@@ -1965,27 +1790,27 @@ using the Enter or Space keys.
         Type
     </dt>
     <dd>
-        
+
 <span class="param-type">void</span>
 
 
     </dd>
 </dl>
 
-    
 
 
 
 
 
-        
-    
 
-    
+
+
+
+
         <h3 class="subsection-title">Type Definitions</h3>
 
-        
-                
+
+
 <h4 class="name" id="WeatherData">WeatherData</h4>
 
 
@@ -1996,7 +1821,7 @@ using the Enter or Space keys.
     <h5>Type:</h5>
     <ul>
         <li>
-            
+
 <span class="param-type">Object</span>
 
 
@@ -2009,91 +1834,91 @@ using the Enter or Space keys.
 
     <h5 class="subsection-title">Properties:</h5>
 
-    
+
 
 <table class="props">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>resolvedAddress</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">string</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The resolved location name.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>address</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">string</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The address used in the API request.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>currentConditions</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">Object</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The current weather conditions.
                 <h6>Properties</h6>
@@ -2101,213 +1926,213 @@ using the Enter or Space keys.
 <table class="props">
     <thead>
     <tr>
-        
+
         <th>Name</th>
-        
+
 
         <th>Type</th>
 
-        
 
-        
+
+
 
         <th class="last">Description</th>
     </tr>
     </thead>
 
     <tbody>
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>temp</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">number</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The current temperature.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>conditions</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">string</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather description.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>icon</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">string</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The weather icon identifier.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>windspeed</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">number</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The wind speed.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>humidity</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">number</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The humidity percentage.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>precip</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">number</span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">The precipitation amount.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
             </td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>alerts</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">Array.&lt;Object></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">A list of weather alerts.</td>
         </tr>
 
-    
+
 
         <tr>
-            
+
                 <td class="name"><code>days</code></td>
-            
+
 
             <td class="type">
-            
-                
+
+
 <span class="param-type">Array.&lt;Object></span>
 
 
-            
+
             </td>
 
-            
 
-            
+
+
 
             <td class="description last">Forecast data for multiple days.</td>
         </tr>
 
-    
+
     </tbody>
 </table>
 
@@ -2316,42 +2141,42 @@ using the Enter or Space keys.
 
 <dl class="details">
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line3">line 3</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line8">line 8</a>
     </li></ul></dd>
-    
 
-    
 
-    
 
-    
+
+
+
+
 </dl>
 
 
@@ -2359,10 +2184,10 @@ using the Enter or Space keys.
 
 
 
-            
-    
 
-    
+
+
+
 </article>
 
 </section>
@@ -2373,13 +2198,13 @@ using the Enter or Space keys.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#constructWeatherAPIUrl">constructWeatherAPIUrl</a></li><li><a href="global.html#displayAlerts">displayAlerts</a></li><li><a href="global.html#displayCurrentConditions">displayCurrentConditions</a></li><li><a href="global.html#displayHourlyForecast">displayHourlyForecast</a></li><li><a href="global.html#displayWeatherCard">displayWeatherCard</a></li><li><a href="global.html#displayWeatherCardHeader">displayWeatherCardHeader</a></li><li><a href="global.html#displayWeatherData">displayWeatherData</a></li><li><a href="global.html#getWeatherData">getWeatherData</a></li><li><a href="global.html#getWeatherIcon">getWeatherIcon</a></li><li><a href="global.html#makeSegmentRespondToKeyboard">makeSegmentRespondToKeyboard</a></li><li><a href="global.html#moveSearchFormToHeader">moveSearchFormToHeader</a></li><li><a href="global.html#setupEventListeners">setupEventListeners</a></li><li><a href="global.html#setupWeatherSearchHandler">setupWeatherSearchHandler</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#displayAlerts">displayAlerts</a></li><li><a href="global.html#displayCurrentConditions">displayCurrentConditions</a></li><li><a href="global.html#displayFortnightlyForecast">displayFortnightlyForecast</a></li><li><a href="global.html#displayHourlyForecast">displayHourlyForecast</a></li><li><a href="global.html#displayWeatherCard">displayWeatherCard</a></li><li><a href="global.html#displayWeatherCardHeader">displayWeatherCardHeader</a></li><li><a href="global.html#displayWeatherData">displayWeatherData</a></li><li><a href="global.html#getWeatherIcon">getWeatherIcon</a></li><li><a href="global.html#initAlertDetails">initAlertDetails</a></li><li><a href="global.html#moveSearchFormToHeader">moveSearchFormToHeader</a></li><li><a href="global.html#setupEventListeners">setupEventListeners</a></li><li><a href="global.html#setupWeatherSearchHandler">setupWeatherSearchHandler</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Apr 01 2025 13:27:23 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Sep 03 2026 11:16:44 GMT+0300 (Eastern European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

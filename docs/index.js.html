@@ -19,14 +19,19 @@
 
     <h1 class="page-title">Source: index.js</h1>
 
-    
 
 
 
-    
+
+
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import "./styles.css";
+import { inject as initAnalytics } from "@vercel/analytics";
+import precipitationRainIcon from "../images/detail/precipitation-rain.svg";
+import precipitationSnowIcon from "../images/detail/precipitation-snow.svg";
+
+const { fetchWeather, getUpcomingHours } = require("./weather-client.js");
 
 /**
  * @typedef {Object} WeatherData
@@ -44,55 +49,13 @@
  */
 
 /**
- * Constructs a URL for fetching weather data from the Visual Crossing API.
- * @param {string} location - The location for which to fetch weather data (e.g., "New York, NY").
- * @param {"celsius"|"fahrenheit"} units - The units for temperature ("celsius" for metric, "fahrenheit" for US).
- * @returns {string} The complete API URL for fetching weather data.
- */
-function constructWeatherAPIUrl(location, units) {
-  const BASE_URL = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/`;
-  const API_KEY = "REMOVED";
-
-  let unitGroup = "?unitGroup=";
-  if (units === "celsius") {
-    unitGroup += "metric";
-  } else {
-    unitGroup += "us";
-  }
-
-  return BASE_URL + `${location}${unitGroup}&amp;key=${API_KEY}`;
-}
-
-/**
- * Fetches weather data from the Visual Crossing API.
- * @param {string} location - The location for which to fetch weather data (e.g., "New York, NY").
- * @param {"celsius"|"fahrenheit"} units - The units for temperature ("celsius" for metric, "fahrenheit" for US).
- * @returns {Promise&lt;WeatherData|undefined>} A promise resolving to the weather data object, or undefined if an error occurs.
- *
- */
-async function getWeatherData(location, units) {
-  try {
-    const url = constructWeatherAPIUrl(location, units);
-    console.log("Constructed URL:", url);
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("Error fetching weather data:", error);
-  }
-}
-
-/**
  * Displays the weather data on the webpage.
  * @param {WeatherData} weatherData - The weather data retrieved from the API.
  * @param {"celsius"|"fahrenheit"} units - The units for temperature.
  */
 function displayWeatherData(weatherData, units) {
   displayWeatherCard(weatherData, units);
-  //todo: displayFortnightlyForecast(weatherData, units);
+  displayFortnightlyForecast(weatherData, units);
 }
 
 /**
@@ -131,7 +94,31 @@ function displayWeatherCardHeader(weatherData) {
 }
 
 /**
- * Displays weather alerts if available.
+ * Initializes toggle behavior for an alert &lt;details> element and updates the expand/collapse icon
+ * @param {HTMLDetailsElement} alertDetails - The &lt;details> element wrapping the alert
+ */
+async function initAlertDetails(alertDetails) {
+  const alertExpandIcon = alertDetails.querySelector(".alert-expand-icon");
+
+  alertDetails.addEventListener("toggle", async () => {
+    try {
+      const iconModule = alertDetails.open
+        ? await import(
+            /* webpackMode: "lazy-once" */ "../images/misc/expand-circle-down-brown.svg"
+          )
+        : await import(
+            /* webpackMode: "lazy-once" */ "../images/misc/expand-circle-right-brown.svg"
+          );
+
+      alertExpandIcon.src = iconModule.default;
+    } catch (error) {
+      console.error("Failed to load expand/collapse icon:", error);
+    }
+  });
+}
+
+/**
+ * Displays weather alerts using &lt;details> elements.
  * @param {WeatherData} weatherData - The weather data retrieved from the API.
  */
 function displayAlerts(weatherData) {
@@ -140,20 +127,40 @@ function displayAlerts(weatherData) {
 
   if (weatherData.alerts &amp;&amp; weatherData.alerts.length > 0) {
     weatherData.alerts.forEach((alert) => {
-      const alertContainer = document.createElement("div");
-      alertContainer.className = "alert-item";
+      const alertDetails = document.createElement("details");
+      alertDetails.className = "alert-item";
+
+      const alertSummary = document.createElement("summary");
+      alertSummary.className = "alert-summary";
 
       const alertTitle = document.createElement("h4");
       alertTitle.className = "alert-title";
       alertTitle.textContent = alert.event || "Weather Alert";
-      alertContainer.appendChild(alertTitle);
 
-      const alertDescription = document.createElement("p");
+      const alertExpandIcon = document.createElement("img");
+      alertExpandIcon.className = "alert-expand-icon";
+      alertExpandIcon.alt = "";
+      alertExpandIcon.setAttribute("aria-hidden", "true");
+
+      import(/* webpackMode: "lazy-once" */ "../images/misc/expand-circle-right-brown.svg")
+        .then((module) => {
+          alertExpandIcon.src = module.default;
+        })
+        .catch((error) => {
+          console.error("Failed to load default expand icon:", error);
+        });
+
+      alertSummary.appendChild(alertTitle);
+      alertSummary.appendChild(alertExpandIcon);
+
+      const alertDescription = document.createElement("div");
       alertDescription.className = "alert-description";
       alertDescription.textContent = alert.description || "";
-      alertContainer.appendChild(alertDescription);
 
-      alertsElement.appendChild(alertContainer);
+      alertDetails.appendChild(alertSummary);
+      alertDetails.appendChild(alertDescription);
+      alertsElement.appendChild(alertDetails);
+      initAlertDetails(alertDetails);
     });
   }
 }
@@ -173,7 +180,9 @@ async function getWeatherIcon(iconCode) {
   } catch (error) {
     console.error(`Failed to load icon: ${iconCode}`, error);
     return (
-      await import(/* webpackMode: "eager" */ `../images/loading-circle.svg`)
+      await import(
+        /* webpackMode: "eager" */ `../images/misc/loading-circle.svg`
+      )
     ).default;
   }
 }
@@ -208,26 +217,17 @@ function displayCurrentConditions(weatherData, units) {
 
   const precipElement = document.querySelector("#precip");
   const precipUnit = units === "celsius" ? "mm" : "in";
-  const precipValue = currentConditions.precip || 0;
+  const precipValue = currentConditions.precip ?? 0;
   precipElement.textContent = `${precipValue} ${precipUnit}`;
   const precipIcon = document.querySelector("#precip-icon");
-  if (
-    currentConditions.preciptype === "snow" ||
-    currentConditions.preciptype === "ice"
-  ) {
-    import(
-      /* webpackMode: "lazy-once" */ `../images/detail/precipitation-snow.svg`
-    )
-      .default.then((iconPath) => {
-        precipIcon.src = iconPath;
-      })
-      .catch((error) => {
-        console.error(
-          "Failed to load precipitation icon: precipitation-snow",
-          error
-        );
-      });
-  }
+  const precipitationTypes = Array.isArray(currentConditions.preciptype)
+    ? currentConditions.preciptype
+    : [currentConditions.preciptype];
+  precipIcon.src = precipitationTypes.some((type) =>
+    ["snow", "ice"].includes(type)
+  )
+    ? precipitationSnowIcon
+    : precipitationRainIcon;
   const feelsLikeElement = document.querySelector("#feels-like");
   feelsLikeElement.textContent = `${Math.round(
     currentConditions.feelslike
@@ -236,6 +236,7 @@ function displayCurrentConditions(weatherData, units) {
 
 /**
  * Displays the hourly weather forecast for the next 24 hours.
+ * Optimized with DocumentFragment to minimize DOM reflows.
  * @param {WeatherData} weatherData - The weather data retrieved from the API.
  * @param {"celsius"|"fahrenheit"} units - The units for temperature.
  */
@@ -243,42 +244,103 @@ function displayHourlyForecast(weatherData, units) {
   const carouselElement = document.querySelector(".hour-carousel");
   carouselElement.innerHTML = "";
 
-  const today = weatherData.days[0];
-  const currentHour = new Date().getHours();
+  const upcomingHours = getUpcomingHours(
+    weatherData.days,
+    weatherData.currentConditions.datetime
+  );
   const tempUnit = units === "celsius" ? "°C" : "°F";
 
-  if (today &amp;&amp; today.hours) {
-    for (let i = currentHour; i &lt; currentHour + 24; i++) {
-      const hourIndex = i % 24;
-      const hour = today.hours[hourIndex];
+  if (upcomingHours.length > 0) {
+    const fragment = document.createDocumentFragment();
 
-      if (hour) {
-        const hourElement = document.createElement("div");
-        hourElement.className = "hour-item";
+    upcomingHours.forEach((hour) => {
+      const hourElement = document.createElement("div");
+      hourElement.className = "hour-item";
 
-        const timeElement = document.createElement("div");
-        timeElement.className = "hour-time";
-        timeElement.textContent = `${hourIndex}:00`;
+      const timeElement = document.createElement("div");
+      timeElement.className = "hour-time";
+      timeElement.textContent = hour.datetime?.slice(0, 5) || "—";
 
-        const iconElement = document.createElement("img");
-        iconElement.className = "hour-icon";
-        iconElement.alt = hour.conditions || "Weather";
-        getWeatherIcon(hour.icon).then(
-          (iconPath) => (iconElement.src = iconPath)
-        );
+      const iconElement = document.createElement("img");
+      iconElement.className = "hour-icon";
+      iconElement.alt = hour.conditions || "Weather";
+      getWeatherIcon(hour.icon).then((iconPath) => {
+        iconElement.src = iconPath;
+      });
 
-        const tempElement = document.createElement("div");
-        tempElement.className = "hour-temp";
-        tempElement.textContent = `${Math.round(hour.temp)}${tempUnit}`;
+      const tempElement = document.createElement("div");
+      tempElement.className = "hour-temp";
+      tempElement.textContent = `${Math.round(hour.temp)}${tempUnit}`;
 
-        hourElement.appendChild(timeElement);
-        hourElement.appendChild(iconElement);
-        hourElement.appendChild(tempElement);
-        carouselElement.appendChild(hourElement);
-      }
-    }
+      hourElement.append(timeElement, iconElement, tempElement);
+      fragment.appendChild(hourElement);
+    });
+
+    carouselElement.appendChild(fragment);
   }
 }
+
+/**
+ * Displays the 14-day weather forecast.
+ * Optimized with DocumentFragment to minimize DOM reflows.
+ * @param {WeatherData} weatherData - The weather data retrieved from the API.
+ * @param {"celsius"|"fahrenheit"} units - The units for temperature.
+ */
+function displayFortnightlyForecast(weatherData, units) {
+  const forecastCard = document.querySelector(".forecast-card");
+  forecastCard.classList.remove("hidden");
+
+  const dailyForecastElement = document.querySelector("#daily-forecast");
+  dailyForecastElement.innerHTML = "";
+
+  const tempUnit = units === "celsius" ? "°C" : "°F";
+
+  if (weatherData.days &amp;&amp; weatherData.days.length > 1) {
+    const daysToShow = weatherData.days.slice(1, 15);
+    const fragment = document.createDocumentFragment();
+
+    daysToShow.forEach(day => {
+      const dayElement = document.createElement("div");
+      dayElement.classList.add("forecast-day");
+
+      const date = new Date(day.datetime).toLocaleDateString("en-us", {
+        weekday: "short",
+        month: "short",
+        day: "numeric"
+      });
+
+      const dateElement = document.createElement("div");
+      dateElement.className = "forecast-day-date";
+      dateElement.textContent = date;
+
+      const iconElement = document.createElement("img");
+      iconElement.className = "forecast-day-icon";
+      iconElement.alt = day.conditions || "Weather";
+      getWeatherIcon(day.icon).then(iconPath => {
+        iconElement.src = iconPath;
+      });
+
+      const tempElement = document.createElement("div");
+      tempElement.className = "forecast-day-temp";
+
+      const maxTempElement = document.createElement("div");
+      maxTempElement.className = "forecast-day-max";
+      maxTempElement.textContent = `${Math.round(day.tempmax)}${tempUnit}`;
+
+      const minTempElement = document.createElement("div");
+      minTempElement.className = "forecast-day-min";
+      minTempElement.textContent = `${Math.round(day.tempmin)}${tempUnit}`;
+
+      tempElement.append(maxTempElement, minTempElement);
+
+      dayElement.append(dateElement, iconElement, tempElement);
+      fragment.appendChild(dayElement);
+    });
+
+    dailyForecastElement.appendChild(fragment);
+  }
+}
+
 
 /**
  * Handles weather search form submission and updates the UI with weather data.
@@ -287,20 +349,47 @@ function displayHourlyForecast(weatherData, units) {
 function setupWeatherSearchHandler() {
   const form = document.querySelector(".request-data-form");
   const submitButton = form.querySelector(".submit-btn");
+  const statusElement = form.querySelector("#weather-status");
+  let activeRequest;
 
-  submitButton.addEventListener("click", async (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const location = form.querySelector("#location").value.trim();
     const units = form.querySelector("#celsius").checked
       ? "celsius"
       : "fahrenheit";
+    const controller = new AbortController();
 
-    const weatherData = await getWeatherData(location, units);
-    console.log(weatherData);
+    activeRequest?.abort();
+    activeRequest = controller;
+    form.setAttribute("aria-busy", "true");
+    submitButton.disabled = true;
+    submitButton.textContent = "Loading…";
+    statusElement.dataset.state = "loading";
+    statusElement.textContent = `Loading forecast for ${location}…`;
 
-    if (weatherData) {
+    try {
+      const weatherData = await fetchWeather(location, units, {
+        signal: controller.signal,
+      });
       displayWeatherData(weatherData, units);
       moveSearchFormToHeader();
+      statusElement.dataset.state = "success";
+      statusElement.textContent = `Forecast updated for ${
+        weatherData.resolvedAddress || weatherData.address || location
+      }.`;
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        statusElement.dataset.state = "error";
+        statusElement.textContent = error.message;
+      }
+    } finally {
+      if (activeRequest === controller) {
+        activeRequest = undefined;
+        form.setAttribute("aria-busy", "false");
+        submitButton.disabled = false;
+        submitButton.textContent = "Get Weather";
+      }
     }
   });
 }
@@ -310,34 +399,17 @@ function setupWeatherSearchHandler() {
  * @returns {void}
  */
 function moveSearchFormToHeader() {
-  const header = document.querySelector("header");
+  const header = document.querySelector(".site-header");
   header.classList.add("header-with-form");
   const form = document.querySelector(".request-data-form");
+  if (form.classList.contains("form-in-header")) return;
   form.classList.add("form-in-header");
   const submitButton = form.querySelector(".submit-btn");
   submitButton.classList.add("header-submit");
   const firstRow = form.querySelector(".first-row");
-  const locationInput = form.querySelector("#location");
-  locationInput.value = "";
 
   firstRow.appendChild(submitButton);
   header.appendChild(form);
-}
-
-/**
- * Adds keyboard accessibility to radio button segments, allowing selection
- * using the Enter or Space keys.
- * @returns {void}
- */
-function makeSegmentRespondToKeyboard() {
-  document.querySelectorAll(".segment-label").forEach((label) => {
-    label.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        const radioButton = document.querySelector(`#${label.htmlFor}`);
-        radioButton.click();
-      }
-    });
-  });
 }
 
 /**
@@ -346,10 +418,10 @@ function makeSegmentRespondToKeyboard() {
  */
 function setupEventListeners() {
   setupWeatherSearchHandler();
-  makeSegmentRespondToKeyboard();
 }
 
 setupEventListeners();
+initAnalytics();
 </code></pre>
         </article>
     </section>
@@ -360,13 +432,13 @@ setupEventListeners();
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#constructWeatherAPIUrl">constructWeatherAPIUrl</a></li><li><a href="global.html#displayAlerts">displayAlerts</a></li><li><a href="global.html#displayCurrentConditions">displayCurrentConditions</a></li><li><a href="global.html#displayHourlyForecast">displayHourlyForecast</a></li><li><a href="global.html#displayWeatherCard">displayWeatherCard</a></li><li><a href="global.html#displayWeatherCardHeader">displayWeatherCardHeader</a></li><li><a href="global.html#displayWeatherData">displayWeatherData</a></li><li><a href="global.html#getWeatherData">getWeatherData</a></li><li><a href="global.html#getWeatherIcon">getWeatherIcon</a></li><li><a href="global.html#makeSegmentRespondToKeyboard">makeSegmentRespondToKeyboard</a></li><li><a href="global.html#moveSearchFormToHeader">moveSearchFormToHeader</a></li><li><a href="global.html#setupEventListeners">setupEventListeners</a></li><li><a href="global.html#setupWeatherSearchHandler">setupWeatherSearchHandler</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#displayAlerts">displayAlerts</a></li><li><a href="global.html#displayCurrentConditions">displayCurrentConditions</a></li><li><a href="global.html#displayFortnightlyForecast">displayFortnightlyForecast</a></li><li><a href="global.html#displayHourlyForecast">displayHourlyForecast</a></li><li><a href="global.html#displayWeatherCard">displayWeatherCard</a></li><li><a href="global.html#displayWeatherCardHeader">displayWeatherCardHeader</a></li><li><a href="global.html#displayWeatherData">displayWeatherData</a></li><li><a href="global.html#getWeatherIcon">getWeatherIcon</a></li><li><a href="global.html#initAlertDetails">initAlertDetails</a></li><li><a href="global.html#moveSearchFormToHeader">moveSearchFormToHeader</a></li><li><a href="global.html#setupEventListeners">setupEventListeners</a></li><li><a href="global.html#setupWeatherSearchHandler">setupWeatherSearchHandler</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Apr 01 2025 13:27:23 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Sep 03 2026 11:16:44 GMT+0300 (Eastern European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
