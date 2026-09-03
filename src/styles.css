@@ -70,6 +70,9 @@ h6 {
   --alert-background-color: #fff3cd;
   --alert-text-color: #856404;
   --detail-label-color: #666;
+  --error-text-color: #a4262c;
+  --success-text-color: #245f35;
+  --focus-color: #172554;
 }
 
 body {
@@ -77,6 +80,20 @@ body {
     Helvetica, Arial, sans-serif;
   min-height: 100vh;
   padding-bottom: 20px;
+  background-color: var(--secondary-background-color);
+  color: var(--main-text-color);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 header {
@@ -126,8 +143,14 @@ h1 {
 }
 
 .request-input:focus {
-  outline: none;
   border-color: var(--main-background-color);
+}
+
+.request-input:focus-visible,
+.submit-btn:focus-visible,
+.alert-summary:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 3px;
 }
 
 .unit-selection {
@@ -138,10 +161,16 @@ h1 {
   width: fit-content;
   height: 40px;
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  min-width: max-content;
 }
 
 .unit-selection input[type="radio"] {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
 .segment-label {
@@ -153,11 +182,18 @@ h1 {
   transition: all 0.2s ease;
   font-weight: 600;
   height: 100%;
+  min-width: 44px;
+  justify-content: center;
 }
 
 .unit-selection input[type="radio"]:checked + .segment-label {
   background-color: var(--main-background-color);
   color: var(--secondary-text-color);
+}
+
+.unit-selection input[type="radio"]:focus-visible + .segment-label {
+  outline: 3px solid var(--focus-color);
+  outline-offset: -3px;
 }
 
 .submit-btn {
@@ -172,7 +208,7 @@ h1 {
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s ease-out;
-  margin-top: 5px;
+  margin: 5px auto 0;
 }
 
 .submit-btn:hover {
@@ -182,6 +218,28 @@ h1 {
 
 .submit-btn:active {
   transform: translateY(1px);
+}
+
+.submit-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
+.form-status {
+  min-height: 1.5em;
+  margin-top: 8px;
+  color: var(--main-text-color);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.form-status[data-state="error"] {
+  color: var(--error-text-color);
+}
+
+.form-status[data-state="success"] {
+  color: var(--success-text-color);
 }
 
 /* Header with form styles */
@@ -195,6 +253,7 @@ h1 {
 .form-in-header {
   flex: 1;
   display: flex;
+  flex-direction: column;
   max-width: 480px;
   padding: 0;
   margin: 0;
@@ -229,6 +288,13 @@ h1 {
     align-items: center;
     justify-content: center;
     font-size: 0.9rem;
+  }
+
+  .form-status {
+    width: 100%;
+    margin-top: 6px;
+    color: var(--secondary-text-color);
+    font-size: 0.875rem;
   }
   .submit-btn:hover {
     background-color: var(--submit-btn-header-hover-color);
@@ -304,7 +370,7 @@ h1 {
   padding: 20px;
   background-color: var(--card-background-color);
   border-radius: 15px;
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -362,7 +428,12 @@ h1 {
   align-items: center;
   padding: 5px 10px;
   flex: 1;
-  border-bottom: 1px solid var(--border-color-transparent)
+  min-width: 0;
+  border-bottom: 1px solid var(--border-color-transparent);
+}
+
+.forecast-day:last-child {
+  border-bottom: 0;
 }
 
 .forecast-day-date {
@@ -473,6 +544,7 @@ h1 {
   padding: 5px;
   margin-right: 10px;
   color: var(--secondary-text-color);
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 768px) {
@@ -512,7 +584,8 @@ h1 {
 .alert-expand-icon {
   width: 20px;
   height: 20px;
-  margin-left: 5px;
+  margin-left: auto;
+  flex: 0 0 auto;
 }
 
 .alert-title {
@@ -532,9 +605,15 @@ h1 {
 
 .alert-summary {
   display: flex;
-  justify-content: left;
+  gap: 8px;
+  justify-content: flex-start;
   align-items: center;
   cursor: pointer;
+  list-style: none;
+}
+
+.alert-summary::-webkit-details-marker {
+  display: none;
 }
 
 
@@ -555,6 +634,8 @@ h1 {
   font-size: 1.3rem;
   color: var(--main-text-color);
   font-weight: 600;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 #weather-icon {
@@ -620,9 +701,9 @@ h1 {
   display: flex;
   overflow-x: auto;
   gap: 15px;
-  padding: 10px 0;
   margin: 0 -10px;
   padding: 10px;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
 }
 
 .hour-carousel::-webkit-scrollbar {
@@ -658,4 +739,15 @@ h1 {
 .hour-temp {
   font-size: 1rem;
   font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

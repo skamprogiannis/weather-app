@@ -1,5 +1,9 @@
 import "./styles.css";
-import { inject as initAnalytics } from "@vercel/analytics"
+import { inject as initAnalytics } from "@vercel/analytics";
+import precipitationRainIcon from "../images/detail/precipitation-rain.svg";
+import precipitationSnowIcon from "../images/detail/precipitation-snow.svg";
+
+const { fetchWeather, getUpcomingHours } = require("./weather-client.js");
 
 /**
  * @typedef {Object} WeatherData
@@ -15,32 +19,6 @@ import { inject as initAnalytics } from "@vercel/analytics"
  * @property {Object[]} alerts - A list of weather alerts.
  * @property {Object[]} days - Forecast data for multiple days.
  */
-
-/**
- * Fetches weather data from the Vercel serverless endpoint.
- * Keeps the API key hidden from the client.
- * @param {string} location - The location to fetch weather data for (e.g., "New York, NY").
- * @param {"celsius"|"fahrenheit"} [units="celsius"] - The units for temperature.
- * @returns {Promise<WeatherData>} The weather data object returned by the serverless function.
- * @throws {Error} If the request fails or the server returns an error.
- */
-async function fetchWeather(location, units = "celsius") {
-  if (!location) throw new Error("Location is required to fetch weather data.");
-
-  const queryParams = new URLSearchParams({ location, units });
-  const url = `/api/weather?${queryParams.toString()}`;
-
-  const response = await fetch(url);
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `Failed to fetch weather data: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data;
-}
-
-
 
 /**
  * Displays the weather data on the webpage.
@@ -133,7 +111,8 @@ function displayAlerts(weatherData) {
 
       const alertExpandIcon = document.createElement("img");
       alertExpandIcon.className = "alert-expand-icon";
-      
+      alertExpandIcon.alt = "";
+      alertExpandIcon.setAttribute("aria-hidden", "true");
 
       import(/* webpackMode: "lazy-once" */ "../images/misc/expand-circle-right-brown.svg")
         .then((module) => {
@@ -210,26 +189,17 @@ function displayCurrentConditions(weatherData, units) {
 
   const precipElement = document.querySelector("#precip");
   const precipUnit = units === "celsius" ? "mm" : "in";
-  const precipValue = currentConditions.precip || 0;
+  const precipValue = currentConditions.precip ?? 0;
   precipElement.textContent = `${precipValue} ${precipUnit}`;
   const precipIcon = document.querySelector("#precip-icon");
-  if (
-    currentConditions.preciptype === "snow" ||
-    currentConditions.preciptype === "ice"
-  ) {
-    import(
-      /* webpackMode: "lazy-once" */ `../images/detail/precipitation-snow.svg`
-    )
-      .default.then((iconPath) => {
-        precipIcon.src = iconPath;
-      })
-      .catch((error) => {
-        console.error(
-          "Failed to load precipitation icon: precipitation-snow",
-          error
-        );
-      });
-  }
+  const precipitationTypes = Array.isArray(currentConditions.preciptype)
+    ? currentConditions.preciptype
+    : [currentConditions.preciptype];
+  precipIcon.src = precipitationTypes.some((type) =>
+    ["snow", "ice"].includes(type)
+  )
+    ? precipitationSnowIcon
+    : precipitationRainIcon;
   const feelsLikeElement = document.querySelector("#feels-like");
   feelsLikeElement.textContent = `${Math.round(
     currentConditions.feelslike
@@ -246,25 +216,22 @@ function displayHourlyForecast(weatherData, units) {
   const carouselElement = document.querySelector(".hour-carousel");
   carouselElement.innerHTML = "";
 
-  const today = weatherData.days[0];
-  const currentHour = new Date().getHours();
+  const upcomingHours = getUpcomingHours(
+    weatherData.days,
+    weatherData.currentConditions.datetime
+  );
   const tempUnit = units === "celsius" ? "°C" : "°F";
 
-  if (today && today.hours) {
+  if (upcomingHours.length > 0) {
     const fragment = document.createDocumentFragment();
 
-    for (let i = currentHour; i < currentHour + 24; i++) {
-      const hourIndex = i % 24;
-      const hour = today.hours[hourIndex];
-
-      if (!hour) continue;
-
+    upcomingHours.forEach((hour) => {
       const hourElement = document.createElement("div");
       hourElement.className = "hour-item";
 
       const timeElement = document.createElement("div");
       timeElement.className = "hour-time";
-      timeElement.textContent = `${hourIndex}:00`;
+      timeElement.textContent = hour.datetime?.slice(0, 5) || "—";
 
       const iconElement = document.createElement("img");
       iconElement.className = "hour-icon";
@@ -279,7 +246,7 @@ function displayHourlyForecast(weatherData, units) {
 
       hourElement.append(timeElement, iconElement, tempElement);
       fragment.appendChild(hourElement);
-    }
+    });
 
     carouselElement.appendChild(fragment);
   }
@@ -354,19 +321,47 @@ function displayFortnightlyForecast(weatherData, units) {
 function setupWeatherSearchHandler() {
   const form = document.querySelector(".request-data-form");
   const submitButton = form.querySelector(".submit-btn");
+  const statusElement = form.querySelector("#weather-status");
+  let activeRequest;
 
-  submitButton.addEventListener("click", async (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const location = form.querySelector("#location").value.trim();
     const units = form.querySelector("#celsius").checked
       ? "celsius"
       : "fahrenheit";
+    const controller = new AbortController();
 
-    const weatherData = await fetchWeather(location, units);
-    
-    if (weatherData) {
+    activeRequest?.abort();
+    activeRequest = controller;
+    form.setAttribute("aria-busy", "true");
+    submitButton.disabled = true;
+    submitButton.textContent = "Loading…";
+    statusElement.dataset.state = "loading";
+    statusElement.textContent = `Loading forecast for ${location}…`;
+
+    try {
+      const weatherData = await fetchWeather(location, units, {
+        signal: controller.signal,
+      });
       displayWeatherData(weatherData, units);
       moveSearchFormToHeader();
+      statusElement.dataset.state = "success";
+      statusElement.textContent = `Forecast updated for ${
+        weatherData.resolvedAddress || weatherData.address || location
+      }.`;
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        statusElement.dataset.state = "error";
+        statusElement.textContent = error.message;
+      }
+    } finally {
+      if (activeRequest === controller) {
+        activeRequest = undefined;
+        form.setAttribute("aria-busy", "false");
+        submitButton.disabled = false;
+        submitButton.textContent = "Get Weather";
+      }
     }
   });
 }
@@ -376,34 +371,17 @@ function setupWeatherSearchHandler() {
  * @returns {void}
  */
 function moveSearchFormToHeader() {
-  const header = document.querySelector("header");
+  const header = document.querySelector(".site-header");
   header.classList.add("header-with-form");
   const form = document.querySelector(".request-data-form");
+  if (form.classList.contains("form-in-header")) return;
   form.classList.add("form-in-header");
   const submitButton = form.querySelector(".submit-btn");
   submitButton.classList.add("header-submit");
   const firstRow = form.querySelector(".first-row");
-  const locationInput = form.querySelector("#location");
-  locationInput.value = "";
 
   firstRow.appendChild(submitButton);
   header.appendChild(form);
-}
-
-/**
- * Adds keyboard accessibility to radio button segments, allowing selection
- * using the Enter or Space keys.
- * @returns {void}
- */
-function makeSegmentRespondToKeyboard() {
-  document.querySelectorAll(".segment-label").forEach((label) => {
-    label.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        const radioButton = document.querySelector(`#${label.htmlFor}`);
-        radioButton.click();
-      }
-    });
-  });
 }
 
 /**
@@ -412,7 +390,6 @@ function makeSegmentRespondToKeyboard() {
  */
 function setupEventListeners() {
   setupWeatherSearchHandler();
-  makeSegmentRespondToKeyboard();
 }
 
 setupEventListeners();
