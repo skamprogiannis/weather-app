@@ -1,22 +1,23 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const isDevelopment = process.env.NODE_ENV === "development";
 
 module.exports = {
-  mode: "development",
+  mode: isDevelopment ? "development" : "production",
   entry: "./src/index.js",
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  devtool: "eval-source-map",
+  devtool: isDevelopment ? "eval-source-map" : false,
   devServer: {
-    watchFiles: ["./src/template.html"],
+    watchFiles: ["./src/index.html"],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-    })
+    }),
   ],
   module: {
     rules: [
